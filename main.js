@@ -1,4 +1,5 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, contextBridge } = require('electron');
+const path = require('path');
 
 function createWindow() {
   try {
@@ -6,10 +7,10 @@ function createWindow() {
       width: 800,
       height: 600,
       webPreferences: {
-        nodeIntegration: true,
-        contextIsolation: false,
+        contextIsolation: true,
+        preload: path.join(__dirname, 'preload.js'),
         devTools: true,
-        webSecurity: false,
+        webSecurity: true,
       },
     });
 
@@ -33,8 +34,27 @@ app.on('window-all-closed', () => {
   }
 });
 
+const { ipcMain } = require('electron');
+const sentiment = require('sentiment');
+
 app.on('activate', () => {
-  if (mainWindow === null) {
+  if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
+  }
+});
+
+ipcMain.handle('analyzeSentiment', async (event, text) => {
+  try {
+    // Check if the input text is in English
+
+
+    const analysis = sentiment(text);
+    if (!analysis) {
+      throw new Error('Sentiment analysis returned null');
+    }
+    return analysis;
+  } catch (error) {
+    console.error('Error during sentiment analysis:', error);
+    return null;
   }
 });

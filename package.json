@@ -8,7 +8,8 @@
     "start": "electron ."
   },
   "dependencies": {
-    "electron": "^19.0.0",
-    "sentiment": "^4.0.2"
+    "electron": "^35.0.0",
+    "sentiment": "^4.0.2",
+    "sentiment-multilang": "^0.0.2"
   }
 }
