@@ -1,0 +1,14 @@
+{
+  "name": "sentiment-analysis",
+  "version": "1.0.0",
+  "description": "A simple sentiment analysis application",
+  "main": "./main.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "electron ."
+  },
+  "dependencies": {
+    "electron": "^19.0.0",
+    "sentiment": "^4.0.2"
+  }
+}
