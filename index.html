@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="script-src 'self'; object-src 'self'">
-  <title>Sentiment Analysis</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-    }
-  </style>
+  <title>Sentiment Analysis App</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https://cdn.jsdelivr.net 'nonce-abc123'; object-src 'none'">
 </head>
 <body>
   <h1>Sentiment Analysis</h1>
-  <textarea id="inputText" rows="4" cols="50" placeholder="Buraya metin girin..." required></textarea>
+  <input type="text" id="inputText" placeholder="Enter text for analysis">
   <button id="analyzeButton">Analyze Sentiment</button>
-  <div id="resultArea"></div>
-
+  <div id="result"></div>
+  <script nonce="abc123">
+    document.getElementById('analyzeButton').addEventListener('click', async () => {
+      const text = document.getElementById('inputText').value;
+      const result = await window.api.sendMessage(text);
+      document.getElementById('result').textContent = JSON.stringify(result, null, 2);
+    });
+  </script>
   <script src="renderer.js"></script>
 </body>
 </html>

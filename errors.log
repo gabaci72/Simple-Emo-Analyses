@@ -1,0 +1,2 @@
+renderer.js:17 Error during sentiment analysis: Error: Error invoking remote method 'analyzeSentiment': TypeError: sentiment.analyze is not a function
+(anonymous) @ renderer.js:17

@@ -1,60 +1,40 @@
-const { app, BrowserWindow, contextBridge } = require('electron');
+const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
+const Sentiment = require('sentiment');
+const sentiment = new Sentiment();
+
+let mainWindow;
 
 function createWindow() {
-  try {
-    const mainWindow = new BrowserWindow({
-      width: 800,
-      height: 600,
-      webPreferences: {
-        contextIsolation: true,
-        preload: path.join(__dirname, 'preload.js'),
-        devTools: true,
-        webSecurity: true,
-      },
-    });
+  mainWindow = new BrowserWindow({
+    width: 800,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+      contextIsolation: true,
+      nodeIntegration: false
+    }
+  });
 
-    mainWindow.loadFile('index.html');
+  mainWindow.loadFile('index.html');
 
-    mainWindow.webContents.openDevTools();
-
-    mainWindow.on('closed', () => {
-      mainWindow = null;
-    });
-  } catch (error) {
-    console.error('Error creating window:', error);
-  }
+  mainWindow.on('closed', () => {
+    mainWindow = null;
+  });
 }
 
 app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
-  if (process.platform !== 'darwin') {
-    app.quit();
-  }
+  if (process.platform !== 'darwin') app.quit();
 });
-
-const { ipcMain } = require('electron');
-const sentiment = require('sentiment');
 
 app.on('activate', () => {
-  if (BrowserWindow.getAllWindows().length === 0) {
-    createWindow();
-  }
+  if (mainWindow === null) createWindow();
 });
 
-ipcMain.handle('analyzeSentiment', async (event, text) => {
-  try {
-    // Check if the input text is in English
-
-
-    const analysis = sentiment(text);
-    if (!analysis) {
-      throw new Error('Sentiment analysis returned null');
-    }
-    return analysis;
-  } catch (error) {
-    console.error('Error during sentiment analysis:', error);
-    return null;
-  }
+ipcMain.handle('analyzeSentiment', (event, arg) => {
+  const text = arg.text;
+  const analysis = sentiment.analyze(text);
+  return analysis;
 });

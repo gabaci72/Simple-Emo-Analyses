@@ -1,15 +1,16 @@
 {
   "name": "sentiment-analysis",
   "version": "1.0.0",
-  "description": "A simple sentiment analysis application",
-  "main": "./main.js",
-  "type": "commonjs",
+  "description": "A desktop application for sentiment analysis",
+  "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
   "dependencies": {
     "electron": "^35.0.0",
-    "sentiment": "^4.0.2",
-    "sentiment-multilang": "^0.0.2"
+    "sentiment": "^5.0.2"
+  },
+  "devDependencies": {
+    "electron-rebuild": "^3.2.9"
   }
 }
