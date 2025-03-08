@@ -119,4 +119,9 @@ This project is licensed under the [MIT License](LICENSE) (if you have a LICENSE
 
 ---
 
+
+## Future Enhancements
+For more information on future enhancements and suggestions, please refer to the [Future Enhancements and Suggestions](improvements.md) document.
+
+## Contributing
 This `Readme.md` provides a comprehensive overview of the Sentiment Analysis Application, including its features, setup, functionality, and potential improvements. It serves as a good starting point for users and developers interested in understanding and contributing to the project.

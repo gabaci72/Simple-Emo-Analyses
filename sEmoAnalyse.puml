@@ -1,0 +1,41 @@
+@startuml
+!define RECTANGLE class
+
+RECTANGLE Main {
+  +mainWindow: BrowserWindow
+  +createWindow(): void
+  +app.on('ready', createWindow): void
+  +app.on('window-all-closed', quit): void
+  +app.on('activate', createWindow): void
+  +ipcMain.handle('analyzeSentiment', analyzeSentiment): void
+}
+
+RECTANGLE SentimentAnalyzer {
+  +analyze(text: String): AnalysisResult
+}
+
+RECTANGLE Preload {
+  +contextBridge.exposeInMainWorld('api', api): void
+}
+
+RECTANGLE Renderer {
+  +document.addEventListener('DOMContentLoaded', init): void
+  +init(): void
+  +analyzeButton.addEventListener('click', analyzeSentiment): void
+}
+
+RECTANGLE AnalysisResult {
+  +score: Number
+  +comparative: Number
+  +positive: List<String>
+  +negative: List<String>
+  +tokens: List<String>
+  +words: List<String>
+}
+
+Main --> SentimentAnalyzer : uses
+Main --> Preload : uses
+Preload --> Renderer : exposes API
+Renderer --> AnalysisResult : displays
+
+@enduml
